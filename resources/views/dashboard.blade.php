@@ -15,6 +15,15 @@
     text-decoration: underline;
 }
 
+#average-rating {
+    display: flex;
+    align-items: center; /* Align stars and rating count vertically */
+}
+
+#rating-count {
+    margin-left: 8px; /* Spacing between the stars and the rating count */
+}
+
 
     </style>
    
@@ -69,20 +78,26 @@
                     </iframe>
                 </div>
                 <div class="content">
-                    <h3 class="card-title">San Juanico Bridge</h3>
-                    <div class="flex items-center space-x-1" id="average-rating">
-                    
-            <!-- Star rating will be updated dynamically -->
-                    </div>
-                    <span class="text-sm" id="rating-count">(4 ratings)</span>
-                 
-                    <button 
-                        class="text-white mt-4 toggle-reviews-rate-btn" 
-                        id="open-modal-btn"
-                        data-card-title="San Juanico Bridge">
-                        Rate & Reviews
-                    </button>
-                </div>
+                <h3 class="card-title">San Juanico Bridge</h3>
+                <div>
+                <div class="flex items-center">
+    <div class="flex items-center space-x-1" id="average-rating">
+        <!-- Star rating will be updated dynamically -->
+    </div>
+    <span class="text-sm ml-2" id="rating-count">(4 ratings)</span> <!-- Added ml-2 for spacing -->
+</div>
+
+               
+                
+                <button 
+                    class="text-white mt-4 toggle-reviews-rate-btn" 
+                    id="open-modal-btn"
+                    data-card-title="San Juanico Bridge">
+                    Rate & Reviews
+                </button>
+            </div>
+
+
             </div>
         </div>
     </div>
@@ -132,50 +147,49 @@
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-    const cards = document.querySelectorAll('.panellum-card');
+   document.addEventListener('DOMContentLoaded', function () {
+    const panoramaCards = document.querySelectorAll('.panellum-card');
 
-    // Loop through each panorama card
-    cards.forEach(card => {
-        const title = card.querySelector('.card-title').innerText; // Get the destination title
-        const averageRatingElement = card.querySelector('#average-rating');
-        const ratingCountElement = card.querySelector('#rating-count');
+    panoramaCards.forEach(card => {
+        const destinationTitle = card.querySelector('.card-title').textContent.trim();
 
-        // Fetch reviews for the specific destination
-        fetch(`/reviews/${title}`)
+        fetch(`/reviews/${encodeURIComponent(destinationTitle)}`)
             .then(response => response.json())
             .then(reviews => {
                 if (reviews.length > 0) {
-                    const totalRatings = reviews.reduce((sum, review) => sum + review.rating, 0);
-                    const averageRating = totalRatings / reviews.length;
-                    const roundedAverage = Math.round(averageRating * 10) / 10; // Round to 1 decimal place
+                    const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+                    const averageRating = (totalRating / reviews.length).toFixed(1);
 
-                    // Update the stars based on average rating
-                    const fullStars = Math.floor(roundedAverage);
-                    const halfStars = roundedAverage % 1 >= 0.5 ? 1 : 0;
-                    const emptyStars = 5 - fullStars - halfStars;
+                    const averageRatingElement = card.querySelector('#average-rating');
+                    const ratingCountElement = card.querySelector('#rating-count');
 
-                    // Render stars in the average rating element
-                    let starsHTML = '';
-                    starsHTML += '<i class="fas fa-star text-yellow-500"></i>'.repeat(fullStars);
-                    starsHTML += '<i class="fas fa-star-half-alt text-yellow-500"></i>'.repeat(halfStars);
-                    starsHTML += '<i class="fas fa-star text-gray-400"></i>'.repeat(emptyStars);
-                    averageRatingElement.innerHTML = starsHTML;
+                    const fullStars = Math.floor(averageRating);
+                    const emptyStars = 5 - fullStars;
 
-                    // Update the rating count
-                    ratingCountElement.innerText = `(${reviews.length} ratings)`;
+                    let starsHtml = '';
+                    for (let i = 0; i < fullStars; i++) {
+                        starsHtml += '<i class="fas fa-star text-yellow-500"></i>';
+                    }
+                    for (let i = 0; i < emptyStars; i++) {
+                        starsHtml += '<i class="fas fa-star text-gray-400"></i>';
+                    }
+                    averageRatingElement.innerHTML = starsHtml;
+
+                    // Update the rating count next to the stars
+                    ratingCountElement.textContent = `(${reviews.length} ratings)`;
                 } else {
+                    const averageRatingElement = card.querySelector('#average-rating');
                     averageRatingElement.innerHTML = '<i class="fas fa-star text-gray-400"></i>'.repeat(5);
-                    ratingCountElement.innerText = '(0 ratings)';
+                    const ratingCountElement = card.querySelector('#rating-count');
+                    ratingCountElement.textContent = '(0 ratings)';
                 }
             })
             .catch(error => {
                 console.error('Error fetching reviews:', error);
-                averageRatingElement.innerHTML = '<i class="fas fa-star text-gray-400"></i>'.repeat(5);
-                ratingCountElement.innerText = '(0 ratings)';
             });
     });
 });
+
 
 </script>
 
