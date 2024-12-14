@@ -1,143 +1,353 @@
 <x-app-layout>
     <!-- Include Vite and FontAwesome -->
-    @vite(['resources/js/script.js'])
+    @vite(['resources/js/script.js','resources/css/style.css'])
     <link 
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" 
         rel="stylesheet"
     >
-    <link 
-        rel="stylesheet" 
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-        integrity="sha512-dyTf1+uIO1bU5FYNStBlB1J8QVyzMbNjG+4HhU54UocdrI1a0LbBUzz8A1JsTVA48O7sy3I+wL+m9pAvb+BFaw=="
-        crossorigin="anonymous"
-        referrerpolicy="no-referrer"
-    />
 
-    <!-- CSS Styling -->
     <style>
-        /* Default color for stars */
-        .star-rating i,
-        #average-rating i {
-            color: gray;
-            font-size: 24px;
-        }
+       #see-more-btn, #see-less-btn {
+    background-color: transparent;
+    color:gray;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+}
 
-        /* Highlighted stars */
-        .star-rating i.text-yellow-500,
-        #average-rating i.text-yellow-500 {
-            color: gold;
-        }
+
     </style>
+   
 
-    <!-- Header Section -->
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
 
-    <div class="py-12">
-        <div class="w-full mx-auto px-4 lg:px-8">
-            <!-- Greeting and Search Card -->
-<div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6 max-w-5xl mx-auto">
-    <div class="p-4 text-gray-900 flex justify-between items-center">
-        <!-- Greeting -->
-        <div>
-            {{ __("Hello, ") }}<span class="font-bold">{{ Auth::user()->name }}</span>
+
+<div class="py-12">
+    <div class="w-full mx-auto px-4 lg:px-8">
+
+     <!-- Greeting and Search Card -->
+     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6 max-w-full mx-auto">
+            <div class="p-4 text-gray-900 flex justify-between items-center">
+                <div>{{ __("Hello, ") }}<span class="font-bold">{{ Auth::user()->name }}</span></div>
+                <div class="flex items-center space-x-3">
+                    <div class="relative">
+                        <i class="fas fa-search text-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2"></i>
+                        <input 
+                            type="text" 
+                            id="search-input" 
+                            class="w-full p-2 pl-10 pr-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 ease-in-out hover:border-blue-400"
+                            placeholder="Search...">
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <!-- Search Bar -->
-        <div class="flex items-center space-x-3">
-            <div class="relative">
-                <i class="fas fa-search text-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2"></i>
-                <input 
-                    type="text" 
-                    id="search-input" 
-                    class="w-full p-2 pl-10 pr-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 ease-in-out hover:border-blue-400"
-                    placeholder="Search..."
-                >
+    <x-slot name="header">
+    <div class="text-center">
+        <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
+            {{ __('Tacloban Day Out') }}
+        </h2>
+        <p class="text-lg text-gray-600 mt-2">
+            {{ __('Choose a Destination to Explore') }}
+        </p>
+    </div>
+</x-slot>
+
+       
+
+      
+        <!-- Grid Layout for Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="cards-container">
+            <!-- Example Panellum Card -->
+            <div class="panellum-card">
+                <div class="viewer-container">
+                    <iframe 
+                        src="https://cdn.pannellum.org/2.5/pannellum.htm#panorama=https://pannellum.org/images/lascar.jpg&amp;autoLoad=true" 
+                        loading="lazy"
+                        allowfullscreen  
+                        frameborder="0" 
+                        class="w-full h-full">
+                    </iframe>
+                </div>
+                <div class="content">
+                    <h3 class="card-title">San Juanico Bridge</h3>
+                    <div class="flex items-center space-x-1" id="average-rating">
+                    
+            <!-- Star rating will be updated dynamically -->
+                    </div>
+                    <span class="text-sm" id="rating-count">(4 ratings)</span>
+                 
+                    <button 
+                        class="text-white mt-4 toggle-reviews-rate-btn" 
+                        id="open-modal-btn"
+                        data-card-title="San Juanico Bridge">
+                        Rate & Reviews
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
+</div><!-- Modal for Rate and Reviews -->
+<div id="review-modal" class="modal fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 hidden">
+    <div class="modal-content bg-white rounded-lg p-6 max-w-md w-full">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-semibold text-gray-800" id="modal-card-title">Rate & Review</h3>
+            <span id="close-modal-btn" class="text-gray-800 text-3xl font-bold cursor-pointer">&times;</span>
+        </div>
 
-            <!-- Full-Width Panellum Card -->
-            <div class="bg-white border rounded-lg shadow-lg w-full mb-6">
-                <div class="p-6" data-title="Panorama Full View" data-description="Immerse yourself in a full-width panoramic experience.">
-                    <!-- Header -->
-                    <div class="flex justify-between items-center">
-                        <!-- Title -->
-                        <h3 class="text-2xl font-semibold">
-                            San Juanico Bridge
-                        </h3>
-                        <!-- Average Rating -->
-                        <div class="flex items-center space-x-1" id="average-rating">
-                            <i class="fas fa-star text-gray-400"></i>
-                            <i class="fas fa-star text-gray-400"></i>
-                            <i class="fas fa-star text-gray-400"></i>
-                            <i class="fas fa-star text-gray-400"></i>
-                            <i class="fas fa-star text-gray-400"></i>
-                            <span id="average-text" class="text-sm text-gray-600 ml-2">(0 ratings)</span>
-                        </div>
-                    </div>
+       
 
-                    <!-- Description -->
-                    <p class="text-gray-600 mt-4">
-                        Enjoy an immersive and interactive panoramic experience with this full-width viewer.
-                    </p>
-
-                    <!-- Panellum Viewer -->
-                    <div class="mt-6" style="height: 500px; overflow: hidden;">
-                        <iframe 
-                            src="https://cdn.pannellum.org/2.5/pannellum.htm#panorama=https://pannellum.org/images/lascar.jpg&amp;autoLoad=true" 
-                            loading="lazy"
-                            allowfullscreen  
-                            frameborder="0" 
-                            class="w-full h-full"
-                            style="padding: 0; border: none;">
-                        </iframe>
-                    </div>
-
-                    <!-- Toggle Button for Reviews and Rating -->
-                    <button class="text-blue-500 mt-4 toggle-reviews-rate-btn" data-target="reviews-rate-section-full">
-                        Rate & Reviews
-                    </button>
-
-                    <!-- Reviews and Rating Section -->
-                    <div id="reviews-rate-section-full" class="reviews-rate-section mt-4 hidden">
-                        <!-- Star Rating -->
-                        <div>
-                            <h4 class="text-lg font-semibold">Rate this Panorama</h4>
-                            <div class="flex space-x-1 star-rating" data-rating="0">
-                                <i class="fas fa-star text-gray-400 cursor-pointer" data-value="1"></i>
-                                <i class="fas fa-star text-gray-400 cursor-pointer" data-value="2"></i>
-                                <i class="fas fa-star text-gray-400 cursor-pointer" data-value="3"></i>
-                                <i class="fas fa-star text-gray-400 cursor-pointer" data-value="4"></i>
-                                <i class="fas fa-star text-gray-400 cursor-pointer" data-value="5"></i>
-                            </div>
-                            <input type="hidden" id="rating-value" name="rating-value" value="0">
-                        </div>
-
-                        <!-- Write a Review -->
-                        <div class="mt-4">
-                            <h4 class="text-lg font-semibold">Write a Review</h4>
-                            <textarea class="w-full p-3 border rounded mt-2" rows="3" placeholder="Write your review here..."></textarea>
-                            <button class="bg-blue-500 text-white p-3 rounded mt-3 w-full">
-                                Post Review
-                            </button>
-                        </div>
-
-                        <!-- Reviews Display -->
-                        <div id="review-display-full" class="mt-6">
-                            <div class="border-t pt-4">
-                                <p class="text-sm text-gray-600"><strong>John Doe:</strong> What a fantastic view!</p>
-                                <p class="text-sm text-gray-600"><strong>Jane Smith:</strong> Simply breathtaking!</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <!-- Star Rating -->
+        <div>
+            <h4 class="text-lg font-semibold text-gray-800">Rate this Panorama</h4>
+            <div class="flex space-x-1 star-rating" data-rating="0">
+                <i class="fas fa-star text-gray-400 cursor-pointer" data-value="1"></i>
+                <i class="fas fa-star text-gray-400 cursor-pointer" data-value="2"></i>
+                <i class="fas fa-star text-gray-400 cursor-pointer" data-value="3"></i>
+                <i class="fas fa-star text-gray-400 cursor-pointer" data-value="4"></i>
+                <i class="fas fa-star text-gray-400 cursor-pointer" data-value="5"></i>
             </div>
         </div>
+
+                        <!-- Review Display Container -->
+        <div id="reviews-container" class="mt-4">
+            <!-- Reviews will be inserted here -->
+            <div id="reviews-list" class="max-h-60 overflow-y-auto"></div> <!-- Set a max height and make it scrollable -->
+            <button id="see-more-btn" class="text-blue-500 mt-4 hidden">See More</button>
+            <button id="see-less-btn" class="text-blue-500 mt-4 hidden">See Less</button>
+        </div>
+
+
+
+        <!-- Review Text Area -->
+        <div>
+            <h4 class="text-lg font-semibold text-gray-800 mt-4">Leave a Review</h4>
+            <textarea id="review-text" placeholder="Write your review here..." rows="4" class="resize-none"></textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <button class="w-full bg-blue-500 text-white py-2 rounded mt-6" id="submit-review-btn">Submit Review</button>
     </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const cards = document.querySelectorAll('.panellum-card');
+
+    // Loop through each panorama card
+    cards.forEach(card => {
+        const title = card.querySelector('.card-title').innerText; // Get the destination title
+        const averageRatingElement = card.querySelector('#average-rating');
+        const ratingCountElement = card.querySelector('#rating-count');
+
+        // Fetch reviews for the specific destination
+        fetch(`/reviews/${title}`)
+            .then(response => response.json())
+            .then(reviews => {
+                if (reviews.length > 0) {
+                    const totalRatings = reviews.reduce((sum, review) => sum + review.rating, 0);
+                    const averageRating = totalRatings / reviews.length;
+                    const roundedAverage = Math.round(averageRating * 10) / 10; // Round to 1 decimal place
+
+                    // Update the stars based on average rating
+                    const fullStars = Math.floor(roundedAverage);
+                    const halfStars = roundedAverage % 1 >= 0.5 ? 1 : 0;
+                    const emptyStars = 5 - fullStars - halfStars;
+
+                    // Render stars in the average rating element
+                    let starsHTML = '';
+                    starsHTML += '<i class="fas fa-star text-yellow-500"></i>'.repeat(fullStars);
+                    starsHTML += '<i class="fas fa-star-half-alt text-yellow-500"></i>'.repeat(halfStars);
+                    starsHTML += '<i class="fas fa-star text-gray-400"></i>'.repeat(emptyStars);
+                    averageRatingElement.innerHTML = starsHTML;
+
+                    // Update the rating count
+                    ratingCountElement.innerText = `(${reviews.length} ratings)`;
+                } else {
+                    averageRatingElement.innerHTML = '<i class="fas fa-star text-gray-400"></i>'.repeat(5);
+                    ratingCountElement.innerText = '(0 ratings)';
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching reviews:', error);
+                averageRatingElement.innerHTML = '<i class="fas fa-star text-gray-400"></i>'.repeat(5);
+                ratingCountElement.innerText = '(0 ratings)';
+            });
+    });
+});
+
+</script>
+
+
+<script>
+    // Search functionality
+    const searchInput = document.getElementById('search-input');
+    const cardsContainer = document.getElementById('cards-container');
+    const cards = cardsContainer.getElementsByClassName('panellum-card');
+
+    searchInput.addEventListener('input', function () {
+        const query = searchInput.value.toLowerCase();
+        
+        Array.from(cards).forEach(card => {
+            const cardTitle = card.querySelector('.card-title').textContent.toLowerCase();
+            card.style.display = cardTitle.includes(query) ? 'block' : 'none';
+        });
+    });
+
+   // Modal toggle functionality
+const openModalBtns = document.querySelectorAll('#open-modal-btn');
+const modal = document.getElementById('review-modal');
+const closeModalBtn = document.getElementById('close-modal-btn');
+const reviewsContainer = document.getElementById('reviews-container');  // Reviews container
+
+openModalBtns.forEach(button => {
+    button.addEventListener('click', function () {
+        const cardTitle = this.getAttribute('data-card-title');
+        document.getElementById('modal-card-title').textContent = `Rate & Review: ${cardTitle}`;
+        
+        fetch(`/reviews/${cardTitle}`)
+    .then(response => response.json())
+    .then(reviews => {
+        const maxReviewsToShow = 3; // Number of reviews to show initially
+        const maxReviewsOnSeeMore = 9999; // Number of reviews to show when "See More" is clicked
+        const reviewsContainer = document.getElementById('reviews-list');
+        const seeMoreBtn = document.getElementById('see-more-btn');
+        const seeLessBtn = document.getElementById('see-less-btn');
+        
+        let reviewsHtml = '';
+        let reviewsToDisplay = reviews.slice(0, maxReviewsToShow);
+        let remainingReviews = reviews.slice(maxReviewsToShow, maxReviewsOnSeeMore);
+
+        // Function to render reviews
+        const renderReviews = (reviews) => {
+            reviewsHtml = '';
+            reviews.forEach(review => {
+                const stars = Array.from({ length: 5 }, (_, index) => 
+                    index < review.rating ? '★' : '☆'
+                ).join('');
+                reviewsHtml += `
+                    <div class="review mb-4">
+                        <div class="flex items-center space-x-1">
+                            <span class="text-yellow-500">${stars}</span>
+                            <span class="text-sm">by ${review.user.name}</span>
+                        </div>
+                        <p class="mt-2">${review.review}</p>
+                    </div>
+                `;
+            });
+            reviewsContainer.innerHTML = reviewsHtml;
+        };
+
+        // Render initial reviews
+        renderReviews(reviewsToDisplay);
+
+        // Show "See More" or "See Less" buttons based on remaining reviews
+        if (reviews.length > maxReviewsToShow) {
+            seeMoreBtn.classList.remove('hidden');
+        }
+        seeLessBtn.classList.add('hidden'); // Initially hidden
+
+        // Add event listener for "See More"
+        seeMoreBtn.addEventListener('click', function () {
+            // Add remaining reviews to the list
+            renderReviews([...reviewsToDisplay, ...remainingReviews]);
+            seeMoreBtn.classList.add('hidden');
+            seeLessBtn.classList.remove('hidden');
+        });
+
+        // Add event listener for "See Less"
+        seeLessBtn.addEventListener('click', function () {
+            renderReviews(reviewsToDisplay); // Show only initial reviews
+            seeMoreBtn.classList.remove('hidden');
+            seeLessBtn.classList.add('hidden');
+        });
+    })
+    .catch(error => {
+        console.error('Error fetching reviews:', error);
+        reviewsContainer.innerHTML = '<p class="text-red-500">Error fetching reviews.</p>';
+    });
+
+     // Show modal
+        modal.style.display = 'flex';  // Show the modal
+    });
+});
+
+
+
+
+    closeModalBtn.addEventListener('click', function () {
+        // Hide modal
+        modal.style.display = 'none'; // This hides the modal
+    });
+
+    // Rating stars functionality
+    const stars = document.querySelectorAll('.modal .star-rating i');
+    
+    stars.forEach(star => {
+        star.addEventListener('click', function () {
+            const rating = parseInt(this.getAttribute('data-value'));
+            const currentStars = this.parentElement;
+            const allStars = currentStars.querySelectorAll('i');
+            
+            allStars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.add('text-yellow-500');
+                    star.classList.remove('text-gray-400');
+                } else {
+                    star.classList.add('text-gray-400');
+                    star.classList.remove('text-yellow-500');
+                }
+            });
+
+            currentStars.setAttribute('data-rating', rating);
+        });
+    });
+
+    // Submit review
+    // Submit review
+const submitReviewBtn = document.getElementById('submit-review-btn');
+
+submitReviewBtn.addEventListener('click', function () {
+    const rating = parseInt(document.querySelector('.modal .star-rating').getAttribute('data-rating'));
+    const reviewText = document.getElementById('review-text').value.trim();
+    const destination = document.getElementById('modal-card-title').textContent.replace("Rate & Review: ", "");
+
+    if (rating && reviewText) {
+        const data = {
+            rating: rating,
+            review: reviewText,
+            destination: destination,
+        };
+
+        // Send the AJAX request
+        fetch("{{ route('reviews.store') }}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message === 'Review submitted successfully!') {
+                alert('Review submitted successfully!');
+                modal.style.display = 'none'; // Close modal after submission
+            } else {
+                alert('Failed to submit review. Please try again.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again later.');
+        });
+    } else {
+        alert('Please fill out the review text and rating.');
+    }
+});
+
+</script>
+
+
 </x-app-layout>

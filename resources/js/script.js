@@ -1,3 +1,5 @@
+
+
 document.addEventListener("DOMContentLoaded", function () {
     // Toggle reviews and rating section visibility
     const toggleButtons = document.querySelectorAll(".toggle-reviews-rate-btn");
@@ -7,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
             target.classList.toggle("hidden");
         });
     });
+
 
     // Handle review posting
     const postReviewButtons = document.querySelectorAll(".post-review-btn");
@@ -109,7 +112,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     star.classList.remove("text-gray-400");
                     star.classList.add("text-yellow-500");
                 } else {
-                    star.classList.remove("text-yellow-500");
+                    star.classList.remove("text-yellow-500"); 
                     star.classList.add("text-gray-400");
                 }
             });
