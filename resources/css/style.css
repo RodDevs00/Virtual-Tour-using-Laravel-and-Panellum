@@ -122,3 +122,95 @@
 .modal button:hover {
     background-color: #005bb5;
 }
+
+#see-more-btn, #see-less-btn {
+    background-color: transparent;
+    color:gray;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+#average-rating {
+    display: flex;
+    align-items: center; /* Align stars and rating count vertically */
+}
+
+#rating-count {
+    margin-left: 8px; /* Spacing between the stars and the rating count */
+}
+
+
+/* HOVER EFFECTS */
+/* Grid container for the cards */
+/* Grid container for the cards */
+#cards-container {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    transition: all 0.3s ease;
+}
+
+/* Base styles for each card */
+.panellum-card {
+    flex: 1 1 20%; /* Allows cards to grow and shrink */
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    min-height: 300px;
+    max-height: 400px;
+}
+
+/* On hover, the card expands */
+.panellum-card:hover {
+    flex: 2; /* The hovered card grows */
+}
+
+/* Non-hovered cards shrink */
+#cards-container > .panellum-card:not(:hover) {
+    flex: 0.8; /* Shrinks non-hovered cards */
+    /* Removed opacity for clearer default appearance */
+}
+
+/* Full-width iframe container */
+.viewer-container {
+    flex: 1; /* Takes up available vertical space */
+    width: 100%; /* Ensures full width */
+    height: 200px; /* Fixed height for iframe */
+}
+
+.viewer-container iframe {
+    width: 100%; /* Full width of the container */
+    height: 100%; /* Full height of the container */
+    border: none;
+}
+
+.content {
+    padding: 16px;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.toggle-reviews-rate-btn {
+    background-color: #3b82f6;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.toggle-reviews-rate-btn:hover {
+    background-color: #2563eb;
+}
+
+/* END OF HOVER EFFECTS */
