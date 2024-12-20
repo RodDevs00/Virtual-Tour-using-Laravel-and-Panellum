@@ -22,68 +22,91 @@
     </nav>
 
     <!-- Hero Section with Carousel -->
-    <section id="explore" class="bg-gray-100 py-12">
-    <div class="container mx-auto px-6 text-center">
-        <h2 class="text-3xl font-semibold text-gray-800">Explore Tacloban's Best Destinations</h2>
-        <p class="text-gray-600 mt-4">Discover the beauty of Tacloban through our curated list of destinations with immersive VR tours.</p>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
-            <!-- Destination Card 1 -->
-            <div class="bg-white shadow-lg rounded-lg overflow-hidden">
-            <iframe 
-                        src="https://cdn.pannellum.org/2.5/pannellum.htm#panorama=https://pannellum.org/images/lascar.jpg&amp;autoLoad=true" 
-                        loading="lazy"
-                        allowfullscreen  
-                        frameborder="0" 
-                        class="w-full h-80">
-                    </iframe>
+    <section id="explore" class="bg-gray-100 py-12" x-data="carousel()">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl font-semibold text-gray-800">Explore Tacloban's Best Destinations</h2>
+            <p class="text-gray-600 mt-4">Discover the beauty of Tacloban through our curated list of destinations with immersive VR tours.</p>
+          
+          
+            <div class="relative mt-10">
+    <!-- Carousel Container -->
+    <div class="flex justify-center items-center space-x-6 overflow-visible">
+    <template x-for="(card, index) in cards" :key="index">
+        <div class="relative flex-shrink-0 transform transition-transform duration-500 cursor-pointer"
+             :class="{'scale-110 z-10': selected === index, 'scale-100': selected !== index}"
+             @mouseenter="selected = index">
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden w-80">
+                <iframe
+                    :src="card.src"
+                    loading="lazy"
+                    allowfullscreen
+                    frameborder="0"
+                    class="w-full h-80">
+                </iframe>
                 <div class="p-6">
-                    <h3 class="text-lg font-semibold text-gray-800">San Juanico Bridge</h3>
-                    <p class="text-gray-600 mt-2">The iconic San Juanico Bridge offers breathtaking views and connects Leyte and Samar.</p>
-                </div>
-            </div>
-
-            <!-- Destination Card 2 -->
-            <div class="bg-white shadow-lg rounded-lg overflow-hidden">
-            <iframe 
-                        src="https://cdn.pannellum.org/2.5/pannellum.htm#panorama=https://pannellum.org/images/lascar.jpg&amp;autoLoad=true" 
-                        loading="lazy"
-                        allowfullscreen  
-                        frameborder="0" 
-                        class="w-full h-80">
-                    </iframe>
-                <div class="p-6">
-                    <h3 class="text-lg font-semibold text-gray-800">Tacloban City Hall</h3>
-                    <p class="text-gray-600 mt-2">A historical landmark showcasing Tacloban's rich cultural heritage.</p>
-                </div>
-            </div>
-
-            <!-- Destination Card 3 -->
-            <div class="bg-white shadow-lg rounded-lg overflow-hidden">
-            <iframe 
-                        src="https://cdn.pannellum.org/2.5/pannellum.htm#panorama=https://pannellum.org/images/lascar.jpg&amp;autoLoad=true" 
-                        loading="lazy"
-                        allowfullscreen  
-                        frameborder="0" 
-                        class="w-full h-80">
-                    </iframe>
-                <div class="p-6">
-                    <h3 class="text-lg font-semibold text-gray-800">Sto. Niño Shrine</h3>
-                    <p class="text-gray-600 mt-2">The Santo Niño Shrine and Heritage Museum, colloquially referred to as the Imelda Marcos Museum, is a building in Tacloban, the Philippines.</p>
+                    <h3 class="text-lg font-semibold text-gray-800" x-text="card.title"></h3>
+                    <p class="text-gray-600 mt-2" x-text="card.description"></p>
                 </div>
             </div>
         </div>
+    </template>
+</div>
 
-        <a href="{{ route('login') }}" class="mt-8 inline-block px-8 py-3 text-white bg-[#FF2D20] rounded-full hover:bg-red-600 transition duration-300">
-            See All Destinations
-        </a>
-    </div>
-</section>
+</div>
+
+
+
+
+
+
+            <a href="{{ route('login') }}" class="mt-8 inline-block px-8 py-3 text-white bg-[#FF2D20] rounded-full hover:bg-red-600 transition duration-300">
+                See All Destinations
+            </a>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer class="bg-gray-800 text-white py-12 text-center">
         <p class="text-lg">© 2024 Tacloban VR Tour. All rights reserved.</p>
     </footer>
 
+    <script>
+    function carousel() {
+    return {
+        selected: 1, // Set this to the middle card index (0-based)
+        interval: null,
+        cards: [
+            {
+                title: "San Juanico Bridge",
+                description: "The iconic San Juanico Bridge offers breathtaking views and connects Leyte and Samar.",
+                src: "https://cdn.pannellum.org/2.5/pannellum.htm#panorama=https://pannellum.org/images/lascar.jpg&autoLoad=true",
+            },
+            {
+                title: "Tacloban City Hall",
+                description: "A historical landmark showcasing Tacloban's rich cultural heritage.",
+                src: "https://cdn.pannellum.org/2.5/pannellum.htm#panorama=https://pannellum.org/images/lascar.jpg&autoLoad=true",
+            },
+            {
+                title: "Sto. Niño Shrine",
+                description: "The Santo Niño Shrine and Heritage Museum is a historical building in Tacloban.",
+                src: "https://cdn.pannellum.org/2.5/pannellum.htm#panorama=https://pannellum.org/images/lascar.jpg&autoLoad=true",
+            },
+        ],
+        init() {
+            this.startAutoRotation();
+        },
+        startAutoRotation() {
+            this.interval = setInterval(() => {
+                this.selected = (this.selected + 1) % this.cards.length;
+            }, 5000);
+        },
+        stopAutoRotation() {
+            clearInterval(this.interval);
+        },
+    };
+}
+
+
+    </script>
 </body>
 </html>

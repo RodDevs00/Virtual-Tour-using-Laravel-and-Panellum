@@ -7,6 +7,10 @@
     >
 
     <style>
+.hidden {
+    display: none; /* Removes the card from the layout */
+}
+
 
 
 </style>
@@ -265,20 +269,26 @@
     });
 });
 
+// Search functionality
+const searchInput = document.getElementById('search-input');
+const cardsContainer = document.getElementById('cards-container');
+const cards = cardsContainer.getElementsByClassName('panellum-card');
 
- // Search functionality
- const searchInput = document.getElementById('search-input');
- const cardsContainer = document.getElementById('cards-container');
- const cards = cardsContainer.getElementsByClassName('panellum-card');
+searchInput.addEventListener('input', function () {
+    const query = searchInput.value.toLowerCase();
+    
+    Array.from(cards).forEach(card => {
+        const cardTitle = card.querySelector('.card-title').textContent.toLowerCase();
+        // Add or remove the 'hidden' class based on the search query
+        if (cardTitle.includes(query)) {
+            card.classList.remove('hidden');
+        } else {
+            card.classList.add('hidden');
+        }
+    });
+});
 
- searchInput.addEventListener('input', function () {
-     const query = searchInput.value.toLowerCase();
-     
-     Array.from(cards).forEach(card => {
-         const cardTitle = card.querySelector('.card-title').textContent.toLowerCase();
-         card.style.display = cardTitle.includes(query) ? 'block' : 'none';
-     });
- });
+
 
 // Modal toggle functionality
 const openModalBtns = document.querySelectorAll('#open-modal-btn');
