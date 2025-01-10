@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/vrlogo.jpg') }}">
     <title>TACLOBAN TOURIST DESTINATIONS VR TOUR EXPERIENCE</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -79,17 +80,17 @@
             {
                 title: "San Juanico Bridge",
                 description: "The iconic San Juanico Bridge offers breathtaking views and connects Leyte and Samar.",
-                src: "https://cdn.pannellum.org/2.5/pannellum.htm#panorama=https://pannellum.org/images/lascar.jpg&autoLoad=true",
+                src: "https://cdn.pannellum.org/2.5/pannellum.htm#panorama=https%3A//i.imgur.com/hE7LBg3.jpeg&autoLoad=true",
             },
             {
-                title: "Tacloban City Hall",
+                title: "Leyte Capitol (old)",
                 description: "A historical landmark showcasing Tacloban's rich cultural heritage.",
-                src: "https://cdn.pannellum.org/2.5/pannellum.htm#panorama=https://pannellum.org/images/lascar.jpg&autoLoad=true",
+                src: "https://aimthree.bitbucket.io/capitol/",
             },
             {
-                title: "Sto. Niño Shrine",
-                description: "The Santo Niño Shrine and Heritage Museum is a historical building in Tacloban.",
-                src: "https://cdn.pannellum.org/2.5/pannellum.htm#panorama=https://pannellum.org/images/lascar.jpg&autoLoad=true",
+                title: "Sto. Niño Church",
+                description: "Dedicated to the Santo Niño, or the Holy Child Jesus, and is a symbol of faith and devotion for many Tacloban.",
+                src: "https://aimthree.bitbucket.io/stoninochurch/",
             },
         ],
         init() {

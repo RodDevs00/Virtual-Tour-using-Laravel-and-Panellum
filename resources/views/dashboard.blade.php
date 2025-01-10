@@ -53,7 +53,7 @@
         <div class="panellum-card">
     <div class="viewer-container">
         <iframe 
-            src="https://cdn.pannellum.org/2.5/pannellum.htm#panorama=https://pannellum.org/images/lascar.jpg&amp;autoLoad=true" 
+            src="https://cdn.pannellum.org/2.5/pannellum.htm#panorama=https%3A//i.imgur.com/hE7LBg3.jpeg&autoLoad=true" 
             loading="lazy"
             allowfullscreen  
             frameborder="0" 
@@ -83,7 +83,7 @@
 <div class="panellum-card">
     <div class="viewer-container">
         <iframe 
-            src="https://cdn.pannellum.org/2.5/pannellum.htm#panorama=https://pannellum.org/images/lascar.jpg&amp;autoLoad=true" 
+            src="https://cdn.pannellum.org/2.5/pannellum.htm#panorama=https%3A//i.imgur.com/wB4hnUG.jpeg&amp;autoLoad=true" 
             loading="lazy"
             allowfullscreen  
             frameborder="0" 
@@ -91,7 +91,7 @@
         </iframe>
     </div>
     <div class="content">
-        <h3 class="card-title">San Bridge</h3>
+        <h3 class="card-title">Rizal Park Tacloban City</h3>
         <div>
             <div class="flex items-center">
                 <div class="flex items-center space-x-1 average-rating">
@@ -102,7 +102,7 @@
             <button 
                 class="text-white mt-4 toggle-reviews-rate-btn" 
                 id="open-modal-btn"
-                data-card-title="San Bridge">
+                data-card-title="Rizal Park">
                 Rate & Reviews
             </button>
         </div>
@@ -115,7 +115,7 @@
 <div class="panellum-card">
     <div class="viewer-container">
         <iframe 
-            src="https://cdn.pannellum.org/2.5/pannellum.htm#panorama=https://pannellum.org/images/lascar.jpg&amp;autoLoad=true" 
+            src="https://aimthree.bitbucket.io/capitol/" 
             loading="lazy"
             allowfullscreen  
             frameborder="0" 
@@ -123,7 +123,7 @@
         </iframe>
     </div>
     <div class="content">
-        <h3 class="card-title">San</h3>
+        <h3 class="card-title">Leyte Provincial Capitol (Old)</h3>
         <div>
             <div class="flex items-center">
                 <div class="flex items-center space-x-1 average-rating">
@@ -134,7 +134,7 @@
             <button 
                 class="text-white mt-4 toggle-reviews-rate-btn" 
                 id="open-modal-btn"
-                data-card-title="San">
+                data-card-title="Leyte Provincial Capitol (Old)">
                 Rate & Reviews
             </button>
         </div>
@@ -145,7 +145,7 @@
 <div class="panellum-card">
     <div class="viewer-container">
         <iframe 
-            src="https://cdn.pannellum.org/2.5/pannellum.htm#panorama=https://pannellum.org/images/lascar.jpg&amp;autoLoad=true" 
+            src="https://aimthree.bitbucket.io/stoninochurch/" 
             loading="lazy"
             allowfullscreen  
             frameborder="0" 
@@ -153,7 +153,7 @@
         </iframe>
     </div>
     <div class="content">
-        <h3 class="card-title">San huhu</h3>
+        <h3 class="card-title">Sto. Niño Church</h3>
         <div>
             <div class="flex items-center">
                 <div class="flex items-center space-x-1 average-rating">
@@ -164,7 +164,7 @@
             <button 
                 class="text-white mt-4 toggle-reviews-rate-btn" 
                 id="open-modal-btn"
-                data-card-title="San huhu">
+                data-card-title="Sto. Niño Church">
                 Rate & Reviews
             </button>
         </div>
